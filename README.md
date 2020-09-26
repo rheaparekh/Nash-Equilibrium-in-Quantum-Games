@@ -21,3 +21,5 @@ To install QETLAB, vist this [page](http://www.qetlab.com/Installation).
   * Set `total_iterations` to a desired value. Current value is `total_iterations = 1500`
   * Set `weight` to desired value. The recommended `weight` in linear update method is in the range 0.1 to 10. The recommended `weight` in matrix exponential update method is in the range 1 to 15.
   * Set the error tolerance by changing parameter `epsilon`.
+
+* Run the file `brute_force_check_equilibrium`: This is a brute force method which checks if player A's response is indeed the best response to Player B's strategy and vice-versa, by using random density matrices.
