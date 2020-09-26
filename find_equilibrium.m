@@ -1,13 +1,12 @@
-% Input dimensions of game
-prompt = 'Enter dimension of game: ';
-dim = input(prompt);
-
 % Set the loop value
 total_iterations = 1500;
 
 % Set the starting points. These starting points are randomly generated
-rho_try = RandomDensityMatrix(dim,1)
-sigma_try = RandomDensityMatrix(dim,1)
+rho_try = RandomDensityMatrix(dim_a, 1);
+sigma_try = RandomDensityMatrix(dim_b, 1);
+
+disp(rho_try);
+disp(sigma_try);
 
 flag_1 = false;
 
@@ -22,42 +21,42 @@ linear_update_method = false;
 %set weights
 % For linear updates method try weights from 0.1 to 10
 % For matrix exponential method try weights from 1 to 15
-weight = 6;
+weight = 5;
 
 
 for iteration = 1:total_iterations
-    linear_map_sigma = get_linear_map_value(psi_sigma, sigma_try, dim);
+    linear_map_sigma = get_linear_map_value(psi_sigma, sigma_try, dim_b);
     
     if linear_update_method == true
-       p = (I + weight*linear_map_sigma)*rho_try*(I + weight*linear_map_sigma);
+       update = (I + weight*linear_map_sigma)*rho_try*(I + weight*linear_map_sigma);
     else
-       p = expm(weight*linear_map_sigma)*rho_try*expm(weight*linear_map_sigma);
+       update = expm(weight*linear_map_sigma)*rho_try*expm(weight*linear_map_sigma);
     end   
-    p = p/(trace(p));
+    matrix = update/(trace(update));
     
     [V,D] = eig(linear_map_sigma);
-    best_response = extract_best_response(V,D, dim);
+    best_response = extract_best_response(V,D, dim_a);
     
     if get_relative_error(rho_try, best_response)<epsilon
        flag_1 = true;
     else
        flag_1 = false;
     end
-    rho_try = p;
+    rho_try = matrix;
     
     
-    linear_map_rho = get_linear_map_value(psi_rho, rho_try, dim);
+    linear_map_rho = get_linear_map_value(psi_rho, rho_try, dim_a);
     
 
     if linear_update_method == true
-        p = (I + weight*linear_map_rho)*sigma_try*(I + weight*linear_map_rho);
+        update = (I + weight*linear_map_rho)*sigma_try*(I + weight*linear_map_rho);
     else    
-        p = expm(weight*linear_map_rho)*sigma_try*expm(weight*linear_map_rho);
+        update = expm(weight*linear_map_rho)*sigma_try*expm(weight*linear_map_rho);
     end    
-    p = p/trace(p);
+    matrix = update/trace(update);
     
     [V,D] = eig(linear_map_rho);
-    best_response = extract_best_response(V,D, dim);
+    best_response = extract_best_response(V,D, dim_b);
    
     if get_relative_error(sigma_try, best_response)<epsilon
         if flag_1 == true
@@ -65,19 +64,19 @@ for iteration = 1:total_iterations
            break;
         end   
    end
-   sigma_try = p;
+   sigma_try = matrix;
 end   
 
 
-function p = extract_best_response(V,D, dim)
+function best_response = extract_best_response(V,D, dim)
     [max_num,max_idx] = max(D(:));
-    p = [];
+    best_response = [];
     val = floor(max_idx/dim)*dim;
     for i = 1:dim
-       p(i) = V(val+1);
+       best_response(i) = V(val+1);
        val= val+1;
     end
-    p = vpa(p'*p,10);
+    best_response = vpa(best_response'*best_response,10);
 end
 
 function rel_error = get_relative_error(matrix, p)
