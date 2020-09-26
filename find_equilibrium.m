@@ -8,11 +8,8 @@ sigma_try = RandomDensityMatrix(dim_b, 1);
 disp(rho_try);
 disp(sigma_try);
 
-flag_1 = false;
-
 % set error tolerance
 epsilon = 1.0e-6;
-epsilon_2 = 0.1;
 
 % Set this as true to use linear update method
 % Set this as false to use matrix exponential update method
@@ -23,6 +20,8 @@ linear_update_method = false;
 % For matrix exponential method try weights from 1 to 15
 weight = 5;
 
+flag_1 = false;
+epsilon_2 = 0.1;
 
 for iteration = 1:total_iterations
     linear_map_sigma = get_linear_map_value(psi_sigma, sigma_try, dim_b);
