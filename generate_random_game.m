@@ -40,17 +40,17 @@ end
 
 % Player 1
 player_1_tensor = vpa(Tensor(rho,I_b)*Hb, 5);
-psi_rho = PartialTraceModified(player_1_tensor, 1); % Applying partial trace on system 1
+phi_rho = PartialTraceModified(player_1_tensor, 1); % Applying partial trace on system 1
 
 x = get_variables(dim_a, rho);
-psi_rho(x(:)) = psi_rho;
+phi_rho(x(:)) = phi_rho;
 
 % Player 2
 player_2_tensor = vpa(Tensor(I_a, sigma)*Ha, 5);
-psi_sigma = PartialTraceModified(player_2_tensor, 2); % Applying partial trace on system 2
+phi_sigma = PartialTraceModified(player_2_tensor, 2); % Applying partial trace on system 2
 
 y = get_variables(dim_b, sigma);
-psi_sigma(y(:)) = psi_sigma;
+phi_sigma(y(:)) = phi_sigma;
 
 
 function mat = symbolic_density_matrix(dim, var)

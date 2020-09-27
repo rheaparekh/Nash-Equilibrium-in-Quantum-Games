@@ -4,7 +4,7 @@
 
 s = 500;
 
-for c = 1:s
+for iteration = 1:s
     k = RandomDensityMatrix(dim_b, 1);
     if vpa(sum(dot(Hb, Tensor(rho_try, k)))) > vpa(sum(dot(Hb, Tensor(rho_try, sigma_try))))
         disp("sigma is not the best response to rho");
@@ -15,7 +15,7 @@ for c = 1:s
 end    
      
 
-for f = 1:s
+for iteration = 1:s
     k = RandomDensityMatrix(dim_a, 1);
     if vpa(sum(dot(Ha, Tensor(k, sigma_try)))) > vpa(sum(dot(Ha, Tensor(rho_try, sigma_try))))
         disp("rho is not the best response to sigma");

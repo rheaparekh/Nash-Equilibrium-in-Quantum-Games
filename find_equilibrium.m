@@ -5,6 +5,7 @@ total_iterations = 1500;
 rho_try = RandomDensityMatrix(dim_a, 1);
 sigma_try = RandomDensityMatrix(dim_b, 1);
 
+disp("The starting random density matrices are: ")
 disp(rho_try);
 disp(sigma_try);
 
@@ -24,7 +25,7 @@ flag_1 = false;
 epsilon_2 = 0.1;
 
 for iteration = 1:total_iterations
-    linear_map_sigma = get_linear_map_value(psi_sigma, sigma_try, dim_b);
+    linear_map_sigma = get_linear_map_value(phi_sigma, sigma_try, dim_b);
     
     if linear_update_method == true
        update = (I + weight*linear_map_sigma)*rho_try*(I + weight*linear_map_sigma);
@@ -44,7 +45,7 @@ for iteration = 1:total_iterations
     rho_try = matrix;
     
     
-    linear_map_rho = get_linear_map_value(psi_rho, rho_try, dim_a);
+    linear_map_rho = get_linear_map_value(phi_rho, rho_try, dim_a);
     
 
     if linear_update_method == true
@@ -80,12 +81,17 @@ end
 
 function rel_error = get_relative_error(matrix, p)
   abs_error = abs((vpa(vpa(matrix),10)-vpa(vpa(p),10)));
-  rel_error = max(abs_error(:) ./ abs(p(:)))
+  rel_error = max(abs_error(:) ./ abs(p(:)));
 end
 
 function display_results(iteration, rho_try, sigma_try)
+   disp("Total number of iterations: ");
    disp(iteration);
+
+   disp("Euilibrium value of rho: ");
    disp(rho_try);
+
+   disp("Euilibrium value of sigma: ");
    disp(sigma_try);
 end
 
