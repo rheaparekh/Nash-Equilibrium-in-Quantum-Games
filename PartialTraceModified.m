@@ -58,7 +58,9 @@ function Xpt = PartialTraceModified(X,varargin)
               Xpt = sparse(Xpt);
           end
       else % if the input is not numeric (such as a variable in a semidefinite program), do a slower method that avoids mat2cell (mat2cell doesn't like non-numeric arrays)
-          Xpt = reshape(permute(reshape(Xpt,[sub_sys_vec(1),sub_prod,sub_sys_vec(1),sub_prod]),[2,4,1,3]),[sub_prod,sub_prod,sub_sys_vec(1)^2]);
+          Xpt = reshape(permute(reshape(Xpt, ...
+          [sub_sys_vec(1),sub_prod,sub_sys_vec(1),sub_prod]), ...
+          [2,4,1,3]),[sub_prod,sub_prod,sub_sys_vec(1)^2]);
           Xpt = sumnd(Xpt(:,:,1:sub_sys_vec(1)+1:sub_sys_vec(1)^2),3);
       end
   end

@@ -5,10 +5,6 @@ dim_b = 'Enter number of available strategies for player B: ';
 dim_b = input(dim_b);
 size = dim_a*dim_b;
 
-% declare variable density matrices for both players
-rho = symbolic_density_matrix(dim_a, 'x');
-sigma = symbolic_density_matrix(dim_b, 'y');
-
 I_a = eye(dim_a);
 I_b = eye(dim_b);
 
@@ -24,11 +20,20 @@ P  = RandomPOVM(size, size,1);
 % Here the payoffs are randomly being selected, however you can
 % customise this
 
+payoff_A = [];
+payoff_B = [];
+
+% Comment the below code out if you are customising the payoffs
+for i = 1:size
+   payoff_A(i) = randi(10, 1, 1);
+   payoff_B(i) = randi(10, 1, 1);
+end
+
 Ha = 0;
 Hb = 0;
 for i = 1:size
-   Ha = Ha + randi(10,1,1)*P{i};
-   Hb = Hb + randi(10,1,1)*P{i};
+   Ha = Ha + payoff_A(i)*P{i};
+   Hb = Hb + payoff_B(i)*P{i};
 end
 
 % Calculate the linear maps for both players
