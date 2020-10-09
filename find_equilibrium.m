@@ -88,10 +88,10 @@ function display_results(iteration, rho_try, sigma_try)
    disp("Total number of iterations: ");
    disp(iteration);
 
-   disp("Euilibrium value of rho: ");
+   disp("Equilibrium value of rho: ");
    disp(rho_try);
 
-   disp("Euilibrium value of sigma: ");
+   disp("Equilibrium value of sigma: ");
    disp(sigma_try);
 end
 
